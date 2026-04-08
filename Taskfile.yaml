@@ -1,0 +1,29 @@
+#schema: https://taskfile.dev/schema.json
+version: '3.17'
+
+tasks:
+  lint:
+    desc: Run lint with auto-fix where possible (dev workflow)
+    cmds:
+      - golangci-lint run --fix
+      - go tool license-eye header fix
+
+  lint:ci:
+    desc: Run lint checks without auto-fix (CI workflow)
+    cmds:
+      - golangci-lint run
+      - go tool license-eye header check
+      - go run ./multimod go tool govulncheck ./...
+
+  test:
+    desc: Run tests
+    cmds:
+      - go run ./multimod go test ./... -v
+      - go run ./multimod go test ./... -v -run=NONE -bench=. -benchmem
+
+  generate:
+    desc: Fix license headers
+    aliases:
+      - gen
+    cmds:
+      - go tool license-eye header fix
