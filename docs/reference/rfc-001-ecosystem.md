@@ -7,9 +7,13 @@ description: "Architectural RFC: unix-way ecosystem of CLI tools for Go multi-mo
 
 | | |
 |---|---|
-| **Status** | Draft |
+| **Status** | Superseded by [RFC-002](/reference/rfc-002-ecosystem) |
 | **Date** | 2026-04-07 |
 | **Origin** | Three-round adversarial architecture review (Skeptic, Implementor, Arbiter) |
+
+::: warning Superseded
+This RFC is retained as historical record. For current architecture decisions, see [RFC-002 — Ecosystem (2026-04-12)](/reference/rfc-002-ecosystem). Key changes: separate binaries → single binary (D10), detached HEAD → git worktree (D11), zero-config → zero-config start (D4 amended).
+:::
 
 > **Focus on Capabilities, Not Structure Compliance.**
 > This RFC describes desired behaviors and constraints. Implementation details — function names, package layout, file structure — are deliberately omitted. Code that satisfies the capabilities is correct, regardless of how it's organized.
@@ -458,7 +462,7 @@ release/v1.2 (dev-state)   → detached v1.2.4
 
 The deeper problem is Go-specific: where do you run release-time analysis? Go has no staging area — push tag = permanent publication via immutable `proxy.golang.org` cache. Dev-state go.mod hides real versions behind `replace ../` directives. You need publish-state to analyze, but publish-state means publication.
 
-`multirelease --write` solves this — local detached commit + tags without push. Go's missing `npm pack`. See [FAQ](/reference/faq#how-do-i-test-publish-state-before-publishing) for the full comparison and workflow.
+`multirelease --write` solves this — local detached commit + tags without push. Go's missing `npm pack`.
 
 **Precedent:** Let's Encrypt Boulder made govulncheck non-blocking — *"circumstances entirely outside our control can grind Boulder development to a halt"*. Tor Project moved `cargo audit` to advisory failure.
 

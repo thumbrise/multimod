@@ -12,33 +12,20 @@
 ```bash
 git clone https://github.com/thumbrise/multimod.git
 cd multimod
-go run ./multimod go test ./...
+go test ./...
 ```
-
-multimod manages itself (dog-fooding). The repo is a multi-module Go project with `multimod/`, `multirelease/`, and `_tools/` modules.
 
 ## Development workflow
 
 ```bash
-# Run tests across all modules
-go run ./multimod go test ./... -v
+# Run tests
+go test ./... -v
 
 # Run lint (requires golangci-lint installed locally)
 task lint
 
 # Fix license headers
 task generate
-```
-
-## Project structure
-
-```
-go.mod                 Root module (github.com/thumbrise/multimod)
-go.work                Workspace: multimod + multirelease + _tools
-multimod/              CLI binary #1 — dev-state guardian
-multirelease/          CLI binary #2 — publish-state creator
-_tools/                Dev tools: license-eye, govulncheck (workspace-only, not released)
-docs/                  VitePress documentation site (RFC, spec, FAQ, devlog)
 ```
 
 ## Commit messages
@@ -58,6 +45,10 @@ Only `feat` and `fix` trigger releases. See [REVIEW.md](REVIEW.md) for full guid
 - All tests use `package xxx_test` (blackbox only).
 - Bug fix = test first: red test commit, then fix commit. Never combined.
 - Run `task test` before pushing.
+
+## Architecture
+
+See the [RFC](https://thumbrise.github.io/multimod/reference/) — the single source of truth for architecture, design decisions, and disputed points.
 
 ## Code review
 

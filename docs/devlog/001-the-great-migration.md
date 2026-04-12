@@ -99,7 +99,7 @@ This is not production-ready software. This is an RFC-driven project building pr
 
 The deathbook has open entries. version-bumper and ghreleaser are planned but not built. The pipe ecosystem works end-to-end for the happy path, but edge cases remain (rollback on failed push, selective module release, toolchain directive sync).
 
-The [RFC](/reference/rfc-001-ecosystem) documents ten known limitations honestly. The [FAQ](/reference/faq) answers every angry question we could think of. The [spec](/multimod/spec) describes what exists today, not what we wish existed.
+The [RFC](/reference/) documents ten known limitations honestly. The ~~FAQ~~ (deleted, merged into RFC §7) answered every angry question we could think of. The ~~spec~~ (deleted, merged into RFC) described what existed at the time.
 
 This is the starting line, not the finish line. But the foundation is solid — battle-tested inside resilience, stress-tested by adversarial review, and now running in its own home.
 

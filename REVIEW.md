@@ -70,8 +70,10 @@ How to update:
 - **Typed constructors over config structs** — when a flat config allows invalid combinations, use separate constructors that make illegal states unrepresentable.
 - **Functional options for optional parameters** — required params in the function signature, optional via `With*` functions.
 - **Per-entity state** — no shared or global mutable state. Each component owns its data.
-- **Multi-module by design** — the repository is a multi-module Go project managed by its own tool (dog-fooding). Each binary (`multimod/`, `multirelease/`) has its own `go.mod`. `_tools/` is workspace-only (not released). See [RFC-001](docs/reference/rfc-001-ecosystem.md) for the architectural source of truth.
-- **PR pipeline gates only what the author controls** — security scanning (govulncheck, audit) belongs in the release pipeline, not PR gates. `multirelease --write` provides the staging area for pre-publish analysis — Go has no `npm pack`. See [RFC-001 §7.7](docs/reference/rfc-001-ecosystem.md).
+- **Single binary, single module** — multimod is a CLI tool, not a library. Single `go.mod`, single binary with subcommands. Shared infrastructure (CLI layer, input resolution, discovery) justified merging what RFC-001 split into separate binaries. See [RFC-002 §4.1, D10, D14](docs/reference/rfc-002-ecosystem.md).
+- **PR pipeline gates only what the author controls** — security scanning (govulncheck, audit) belongs in the release pipeline, not PR gates. `multimod release --write` provides the staging area for pre-publish analysis — Go has no `npm pack`. See [RFC-002 §7.7](docs/reference/rfc-002-ecosystem.md).
+- **NIH with documentation** — before writing something new, verify no existing solution covers the need. If it doesn't (gap), document why in the RFC or devlog, then build. Conscious NIH with documentation beats unconscious NIH without it.
+- **Adversarial architecture review** — the best way to validate architecture is to let someone try to destroy it. Disputed points and their resolutions are recorded as court records (attack, defense, verdict), not meeting notes. See [RFC-002 §7](docs/reference/rfc-002-ecosystem.md).
 
 ## Documentation
 

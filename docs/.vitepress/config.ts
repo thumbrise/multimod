@@ -35,10 +35,8 @@ export default defineConfig({
   
   themeConfig: {  
     nav: [  
-      {text: 'Guide', link: '/guide/getting-started'},  
-      {text: 'multimod', link: '/multimod/'},  
-      {text: 'multirelease', link: '/multirelease/'},  
-      {text: 'Reference', link: '/reference/rfc-001-ecosystem'},  
+      {text: 'Getting Started', link: '/guide/getting-started'},  
+      {text: 'Reference', link: '/reference/'},  
       {text: 'Devlog', link: '/devlog/'},  
     ],  
   
@@ -48,24 +46,6 @@ export default defineConfig({
           text: 'Guide',  
           items: [  
             {text: 'Getting Started', link: '/guide/getting-started'},  
-            {text: 'Pipe Ecosystem', link: '/guide/pipe-ecosystem'},  
-          ],  
-        },  
-      ],  
-      '/multimod/': [  
-        {  
-          text: 'multimod',  
-          items: [  
-            {text: 'Overview', link: '/multimod/'},  
-            {text: 'Specification', link: '/multimod/spec'},  
-          ],  
-        },  
-      ],  
-      '/multirelease/': [  
-        {  
-          text: 'multirelease',  
-          items: [  
-            {text: 'Overview', link: '/multirelease/'},  
           ],  
         },  
       ],  
@@ -73,10 +53,9 @@ export default defineConfig({
         {  
           text: 'Reference',  
           items: [  
-            {text: 'RFC-001 — Ecosystem', link: '/reference/rfc-001-ecosystem'},  
-            {text: 'FAQ — Angry User Edition', link: '/reference/faq'},  
-            {text: 'Research', link: '/reference/research'},  
-            {text: 'Vision', link: '/reference/vision'},  
+            {text: 'Index', link: '/reference/'},  
+            {text: 'RFC-002 — Ecosystem (2026-04-12)', link: '/reference/rfc-002-ecosystem'},
+            {text: 'RFC-001 — Ecosystem (2026-04-07)', link: '/reference/rfc-001-ecosystem'},  
           ],  
         },  
       ],  
