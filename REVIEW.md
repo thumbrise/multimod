@@ -12,6 +12,10 @@ How to update:
 - Each rule should be grounded in real experience, not hypothetical scenarios.
 - Keep it concise. If a rule needs a paragraph of explanation, it's too complex.
 
+## RFC documents
+
+RFC documents (`docs/reference/rfc-*.md`) are append-only court records. Update rules are in the RFC header. Obey them.
+
 ## Code style
 
 - **Single responsibility** — small types, small functions, one job each.

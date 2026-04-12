@@ -5,7 +5,7 @@ const hostname = 'https://thumbrise.github.io'
   
 export default defineConfig({  
   title: 'multimod',  
-  description: 'Unix-way CLI ecosystem for Go multi-module monorepos. Zero-config workspace sync, replace management, detached-commit releases, sub-module tagging. The missing cargo-release for Go.',  
+  description: 'Governance CLI for Go multi-module projects. go.work tamer, dev-state guardian. Workspace sync, replace management, detached-commit releases, sub-module tagging. The missing cargo-release for Go.',  
   base,  
   sitemap: {  
     hostname: `${hostname}${base}`,  
@@ -54,6 +54,7 @@ export default defineConfig({
           text: 'Reference',  
           items: [  
             {text: 'Index', link: '/reference/'},  
+            {text: 'RFC-003 — Ecosystem (2026-04-12)', link: '/reference/rfc-003-ecosystem'},
             {text: 'RFC-002 — Ecosystem (2026-04-12)', link: '/reference/rfc-002-ecosystem'},
             {text: 'RFC-001 — Ecosystem (2026-04-07)', link: '/reference/rfc-001-ecosystem'},  
           ],  

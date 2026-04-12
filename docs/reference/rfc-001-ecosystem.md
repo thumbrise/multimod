@@ -7,12 +7,12 @@ description: "Architectural RFC: unix-way ecosystem of CLI tools for Go multi-mo
 
 | | |
 |---|---|
-| **Status** | Superseded by [RFC-002](/reference/rfc-002-ecosystem) |
+| **Status** | Superseded — see [Reference Index](/reference/) for latest |
 | **Date** | 2026-04-07 |
 | **Origin** | Three-round adversarial architecture review (Skeptic, Implementor, Arbiter) |
 
 ::: warning Superseded
-This RFC is retained as historical record. For current architecture decisions, see [RFC-002 — Ecosystem (2026-04-12)](/reference/rfc-002-ecosystem). Key changes: separate binaries → single binary (D10), detached HEAD → git worktree (D11), zero-config → zero-config start (D4 amended).
+This RFC is retained as historical record. See [Reference Index](/reference/) for the latest RFC.
 :::
 
 > **Focus on Capabilities, Not Structure Compliance.**

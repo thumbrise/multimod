@@ -7,10 +7,14 @@ description: "Architectural RFC: unified CLI tool for Go multi-module monorepo l
 
 |                |                                                                                                                   |
 |----------------|-------------------------------------------------------------------------------------------------------------------|
-| **Status**     | Draft                                                                                                             |
+| **Status**     | Superseded — see [Reference Index](/reference/) for latest                                                        |
 | **Date**       | 2026-04-12                                                                                                        |
 | **Supersedes** | RFC-001 (2026-04-07)                                                                                              |
 | **Origin**     | RFC-001 adversarial review + implementation experience + second adversarial review (Critic, Implementor, Arbiter) |
+
+::: warning Superseded
+This RFC is retained as historical record. See [Reference Index](/reference/) for the latest RFC.
+:::
 
 > **Focus on Capabilities, Not Structure Compliance.**
 > This RFC describes desired behaviors and constraints. Implementation details — function names, package layout, file structure — are deliberately omitted. Code that satisfies the capabilities is correct, regardless of how it's organized.

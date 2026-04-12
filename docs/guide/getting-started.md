@@ -1,5 +1,5 @@
 ---
-title: "Getting Started — Go Multi-Module Monorepo Tooling"
+title: "Getting Started — Go Multi-Module Project Tooling"
 description: "You searched for a Go monorepo tool. But do you actually have a monorepo problem — or a multi-module problem? multimod solves the second one. Zero config. The missing cargo-release for Go."
 head:
   - - meta
@@ -10,7 +10,7 @@ head:
 # Getting Started
 
 ::: warning Work In Progress
-multimod is in active development. The [RFC](/reference/rfc-002-ecosystem) is the architectural source of truth. Not production-ready for general use yet.
+multimod is in active development. The [RFC](/reference/rfc-003-ecosystem) is the architectural source of truth. Not production-ready for general use yet.
 :::
 
 ## Wait — do you need a monorepo tool?
@@ -20,7 +20,7 @@ You probably searched for "Go monorepo tool." Let's check if that's actually wha
 **Do you have this?**
 - One Git repo with multiple `go.mod` files
 - A core library + optional extensions (OTEL, gRPC, Redis) in separate modules
-- `go.work` that keeps breaking, `replace` directives everywhere, `go test ./...` that misses sub-modules
+- `go.work` that keeps breaking, `replace` directives everywhere, `go mod tidy` that must run per-module
 - Release day means stripping replaces, pinning versions, tagging each sub-module by hand
 
 **If yes — you don't have a monorepo problem. You have a multi-module problem.**
@@ -42,24 +42,15 @@ Quick test: do all your modules share one version number at release time? If yes
 go run github.com/thumbrise/multimod@latest
 ```
 
-This single command:
-- Discovers all `go.mod` files in subdirectories
-- Generates/syncs `go.work`
-- Adds missing `replace` directives to all sub-modules
-- Aligns `go` version across all modules
-- Reports what it did on stderr
+That's it. One command. After this:
+- `go.work` is generated — IDE sees all modules, cross-module navigation works
+- `replace` directives are in place — `go mod tidy` resolves internal modules locally, not from registry
+- Go version is aligned across all modules — no silent drift
+- `go test ./...` works across all modules (Go workspace mode)
 
 Run it again — nothing changes. Idempotent.
 
-```bash
-# Test all modules
-go run github.com/thumbrise/multimod@latest go test ./...
-
-# Vet all modules
-go run github.com/thumbrise/multimod@latest go vet ./...
-```
-
-Non-multi-module commands pass through to `go` directly — multimod is transparent.
+**What multimod gives you that `go.work` alone doesn't:** numerous documented go.work footguns handled. `go work use -r .` picks up `vendor/`, `testdata/`, broken test fixtures — multimod doesn't. Replace directives managed automatically. Go version synced. On release day — `multimod release` strips replaces, pins versions, tags every sub-module. No shell scripts.
 
 ## What's Next
 

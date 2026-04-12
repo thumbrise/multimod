@@ -5,7 +5,7 @@
 
 The missing `cargo-release` for Go.
 
-Zero-config CLI for Go multi-module monorepos. Workspace sync, replace management, detached-commit releases, sub-module tagging. No YAML. No shell scripts. Just `go.mod`.
+Governance CLI for Go multi-module projects. go.work tamer, dev-state guardian. Workspace sync, replace management, detached-commit releases, sub-module tagging. No YAML. No shell scripts. Just `go.mod`.
 
 > **Work in progress.** The RFC is solid — stress-tested through adversarial architecture review. The implementation is catching up.
 
@@ -18,20 +18,16 @@ If yes — you have a **multi-module project**, not a monorepo. Different proble
 ## Quick Start
 
 ```bash
-# Sync everything: go.work, replace directives, go version alignment
 go run github.com/thumbrise/multimod@latest
-
-# Test all modules
-go run github.com/thumbrise/multimod@latest go test ./...
 ```
 
-One command. Zero config. Idempotent. Run it again — nothing changes.
+One command. After this: `go.work` is correct, `replace` directives are in place, Go version is aligned, IDE works, `go test ./...` covers all modules. Run it again — nothing changes. Idempotent.
 
 ## Documentation
 
 **[thumbrise.github.io/multimod](https://thumbrise.github.io/multimod/)** — getting started, RFC, devlog.
 
-- [Getting Started](https://thumbrise.github.io/multimod/guide/getting-started) — install, first sync, the monorepo vs multi-module distinction
+- [Getting Started](https://thumbrise.github.io/multimod/guide/getting-started) — install, first sync, the multi-module project distinction
 - [Reference](https://thumbrise.github.io/multimod/reference/) — RFCs: architecture, design decisions, disputed points
 - [Devlog](https://thumbrise.github.io/multimod/devlog/) — design decisions, dead ends, lessons learned
 
