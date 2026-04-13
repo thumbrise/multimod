@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: multimod
-  text: The missing cargo-release for Go
+  text: When go.work doesn't go work
   tagline: 'Governance CLI for Go multi-module projects. go.work tamer, dev-state guardian. Workspace sync, replace management, detached-commit releases, sub-module tagging. No YAML. No shell scripts. Just go.mod.'
   actions:
     - theme: brand

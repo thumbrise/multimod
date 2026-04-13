@@ -1,39 +1,36 @@
 ---
 title: "Getting Started — Go Multi-Module Project Tooling"
-description: "You searched for a Go monorepo tool. But do you actually have a monorepo problem — or a multi-module problem? multimod solves the second one. Zero config. The missing cargo-release for Go."
+description: "Multiple go.mod files in one repo? go.work keeps breaking? replace directives everywhere? One command — workspace synced, replaces managed, versions aligned, releases tagged."
 head:
   - - meta
     - name: keywords
-      content: go monorepo tool, go multi-module getting started, golang monorepo setup, go.work sync tool, go mod replace automation, multimod install, zero-config go monorepo, cargo-release for go
+      content: multiple go.mod one repo, go.work doesn't work, go.work keeps breaking, go.work too complex, go mod replace not working, go test multiple modules, go release multiple modules, go tag submodule, go.work vendor testdata, go.work breaks IDE, go mod tidy multiple modules
 ---
 
 # Getting Started
 
 ::: warning Work In Progress
-multimod is in active development. The [RFC](/reference/rfc-003-ecosystem) is the architectural source of truth. Not production-ready for general use yet.
+multimod is in active development. The [RFC](/reference/) is the architectural source of truth. Not production-ready for general use yet.
 :::
 
-## Wait — do you need a monorepo tool?
+<details>
+<summary><strong>Monorepo or multi-module project? A checklist.</strong></summary>
 
-You probably searched for "Go monorepo tool." Let's check if that's actually what you need.
+Most developers search for "Go monorepo tool." These are different problems:
 
-**Do you have this?**
-- One Git repo with multiple `go.mod` files
-- A core library + optional extensions (OTEL, gRPC, Redis) in separate modules
-- `go.work` that keeps breaking, `replace` directives everywhere, `go mod tidy` that must run per-module
-- Release day means stripping replaces, pinning versions, tagging each sub-module by hand
+|               | Monorepo                                | Multi-module project                      |
+|---------------|-----------------------------------------|-------------------------------------------|
+| **What**      | Storage strategy                        | Architecture strategy                     |
+| **Structure** | Many independent projects, one Git repo | One product, many Go modules              |
+| **Example**   | 15 microservices in one repo            | Core library + OTEL/gRPC/Redis extensions |
+| **Release**   | Each project has its own version        | All modules share one version             |
+| **Tool**      | Bazel, Nx, Turborepo                    | **multimod**                              |
 
-**If yes — you don't have a monorepo problem. You have a multi-module problem.**
+**Quick test:** do all your modules share one version number at release time?
+- **Yes** → multi-module project. You're in the right place.
+- **No** → monorepo with independent packages. multimod is not for you.
 
-A monorepo is a storage strategy: 15 microservices in one Git repo. You need Bazel, Nx, or Turborepo — tools that decide **which projects to build**.
-
-A multi-module project is an architecture strategy: one product, many Go modules. You need a tool that manages **how those modules work together** — workspace sync, replace directives, version alignment, coordinated releases.
-
-These are orthogonal problems. Different tools. multimod solves the second one.
-
-::: tip Still not sure?
-Quick test: do all your modules share one version number at release time? If yes — multi-module project, you're in the right place. If each module has its own independent version — that's a monorepo with independent packages, and multimod is not for you.
-:::
+</details>
 
 ## Quick Start
 
@@ -42,7 +39,7 @@ Quick test: do all your modules share one version number at release time? If yes
 go run github.com/thumbrise/multimod@latest
 ```
 
-That's it. One command. After this:
+One command. After this:
 - `go.work` is generated — IDE sees all modules, cross-module navigation works
 - `replace` directives are in place — `go mod tidy` resolves internal modules locally, not from registry
 - Go version is aligned across all modules — no silent drift
@@ -50,8 +47,39 @@ That's it. One command. After this:
 
 Run it again — nothing changes. Idempotent.
 
-**What multimod gives you that `go.work` alone doesn't:** numerous documented go.work footguns handled. `go work use -r .` picks up `vendor/`, `testdata/`, broken test fixtures — multimod doesn't. Replace directives managed automatically. Go version synced. On release day — `multimod release` strips replaces, pins versions, tags every sub-module. No shell scripts.
+## What You Get Over Raw `go.work`
+
+`go.work` is a mechanism. multimod is the policy layer on top.
+
+- **Filtered discovery** — `go work use -r .` picks up `vendor/`, `testdata/`, broken test fixtures. multimod doesn't. 20 verified go.work footguns [cataloged in the RFC](/reference/).
+- **Replace management** — unconditional `replace` directives for all internal modules. Add a dependency, `go mod tidy` resolves locally. No manual bookkeeping.
+- **Go version sync** — root's `go` directive propagated to all sub-modules. No silent drift.
+- **Acyclic validation** — cyclic dependencies caught at dev-time, not at release-time when Go Module Proxy has already cached the broken version.
+
+## Two States of `go.mod`
+
+Every sub-module's `go.mod` exists in exactly two states. multimod is the only tool in the Go ecosystem that formally separates them.
+
+|           | Dev-state (main branch)           | Publish-state (behind tag)        |
+|-----------|-----------------------------------|-----------------------------------|
+| `replace` | `replace example.com/root => ../` | **Removed**                       |
+| `require` | `require example.com/root v0.0.0` | `require example.com/root v1.2.3` |
+| Who sees  | Developers                        | Users (`go get`)                  |
+
+Main branch is the **kitchen** — `replace` directives, `go.work`, version placeholders. All committed. All managed by multimod. Users never see this.
+
+The tag points to a **detached commit** — clean `go.mod`, no replaces, pinned versions. This is the **restaurant floor** — what `go get @v1.2.3` downloads. The commit is not on any branch. Main never leaves dev-state.
+
+```bash
+# When you're ready to release:
+multimod release v1.2.3 --write --push
+```
+
+One command: replaces stripped, versions pinned, every sub-module tagged (`otel/v1.2.3`, `grpc/v1.2.3`), detached commit created and pushed. Go Module Proxy caches it permanently — so multimod validates publish-state **before** the point of no return.
+
+No other Go tool does this. The closest prior art — OTEL's 3000-line shell scripts — doesn't manage dev-state at all.
 
 ## What's Next
 
-The [Reference](/reference/) section contains the architectural source of truth — RFCs covering problem statement, design decisions, capabilities, and disputed points.
+- [Reference](/reference/) — architectural source of truth: problem statement, evidence base, disputed points, full decision log
+- [Devlog](/devlog/) — design decisions, dead ends, lessons learned

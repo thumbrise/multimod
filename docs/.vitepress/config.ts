@@ -66,7 +66,8 @@ export default defineConfig({
           items: [  
             {text: 'About This Devlog', link: '/devlog/'},  
             {text: '#1 — The Great Migration', link: '/devlog/001-the-great-migration'},  
-            {text: '#2 — Gate vs Observation', link: '/devlog/002-gate-vs-observation'},  
+            {text: '#2 — Gate vs Observation', link: '/devlog/002-gate-vs-observation'},
+            {text: '#3 — When go.work Doesn\'t Go Work', link: '/devlog/003-when-go-work-doesnt-go-work'},  
           ],  
         },  
       ],  

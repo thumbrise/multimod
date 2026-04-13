@@ -3,7 +3,7 @@
 [![CI](https://github.com/thumbrise/multimod/actions/workflows/ci.yml/badge.svg)](https://github.com/thumbrise/multimod/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](/LICENSE)
 
-The missing `cargo-release` for Go.
+*When `go.work` doesn't go work.*
 
 Governance CLI for Go multi-module projects. go.work tamer, dev-state guardian. Workspace sync, replace management, detached-commit releases, sub-module tagging. No YAML. No shell scripts. Just `go.mod`.
 
