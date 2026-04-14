@@ -63,6 +63,4 @@ tool (
 
 replace github.com/thumbrise/multimod => ..
 
-replace github.com/thumbrise/multimod/multimod => ../multimod
 
-replace github.com/thumbrise/multimod/multirelease => ../multirelease
