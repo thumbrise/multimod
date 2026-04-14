@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: multimod
-  text: When go.work doesn't go work
-  tagline: 'Governance CLI for Go multi-module projects. go.work tamer, dev-state guardian. Workspace sync, replace management, detached-commit releases, sub-module tagging. No YAML. No shell scripts. Just go.mod.'
+  name: gover
+  text: Composable governance CLI for Go projects
+  tagline: 'Version determination, release notes, cross-compilation, pre-publish staging, dev-state sync. For single-module and multi-module projects. No YAML DSL. No monolithic pipeline. Unix-way subcommands, structured stdout, every step replaceable.'
   actions:
     - theme: brand
       text: Getting Started
@@ -14,28 +14,33 @@ hero:
       link: /reference/
     - theme: alt
       text: GitHub
-      link: https://github.com/thumbrise/multimod
+      link: https://github.com/thumbrise/gover
 
 features:
   - icon: 🚧
     title: Work In Progress
-    details: "Honest status: RFC is solid, proof of concept works. Not production-ready yet. We're building in public — the RFC drives development, not the other way around."
+    details: "Architecture under active RFC development — stress-tested through adversarial review. Previously multimod — renamed to gover after scope expansion."
     link: /reference/
     linkText: Read the RFC →
   - icon: 🔍
     title: Zero Configuration
-    details: "Directory structure is the config. A go.mod in a subdirectory = a sub-module. No YAML, no TOML, no .multimod.json. Discovery is automatic, deterministic, and auditable."
+    details: "Directory structure is the config. A go.mod in a subdirectory = a sub-module. No YAML, no TOML, no config files. Discovery is automatic, deterministic, and auditable."
   - icon: 🔄
     title: Always Synced
     details: "Every invocation guarantees the filesystem matches the desired state. go.work, replace directives, go version alignment — all synced. You cannot forget. You cannot drift."
   - icon: 🏷️
-    title: Detached-Commit Releases
-    details: "Publish-state lives on a detached git commit behind a tag. Main never leaves dev-state. go get @v1.2.3 gets clean go.mod. Developers never see broken state."
-    link: /reference/
+    title: Staging Before Point of No Return
+    details: "Go Module Proxy caches forever. --write creates staging worktree with publish-state. Check before you push. --push ships. --abort rolls back. Go's missing npm pack."
+    link: /guide/getting-started
     linkText: How it works →
   - icon: 🔗
     title: Composable Subcommands
-    details: "multimod release v1.2.3 --write --push. Each subcommand does one thing. Any subcommand replaceable with svu, git-cliff, gh, or a shell script."
-    link: /reference/
+    details: "gover bump | gover release | gover build | gover notes | gh release create. Each does one thing. Any replaceable with svu, git-cliff, goreleaser, or a shell script."
+    link: /guide/getting-started
     linkText: See the design →
+  - icon: 📦
+    title: Works For All Go Projects
+    details: "Library? bump + release + notes. CLI tool? Add build. Multi-module? Add dev-state sync. Single-module is first-class, not degraded mode."
+    link: /reference/
+    linkText: Three project types →
 ---

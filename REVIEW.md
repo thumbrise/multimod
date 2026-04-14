@@ -74,16 +74,53 @@ RFC documents (`docs/reference/rfc-*.md`) are append-only court records. Update 
 - **Typed constructors over config structs** — when a flat config allows invalid combinations, use separate constructors that make illegal states unrepresentable.
 - **Functional options for optional parameters** — required params in the function signature, optional via `With*` functions.
 - **Per-entity state** — no shared or global mutable state. Each component owns its data.
-- **Single binary, single module** — multimod is a CLI tool, not a library. Single `go.mod`, single binary with subcommands. Shared infrastructure (CLI layer, input resolution, discovery) justified merging what RFC-001 split into separate binaries. See [RFC-002 §4.1, D10, D14](docs/reference/rfc-002-ecosystem.md).
-- **PR pipeline gates only what the author controls** — security scanning (govulncheck, audit) belongs in the release pipeline, not PR gates. `multimod release --write` provides the staging area for pre-publish analysis — Go has no `npm pack`. See [RFC-002 §7.7](docs/reference/rfc-002-ecosystem.md).
+- **Single binary, single module** — gover is a CLI tool, not a library. Single `go.mod`, single binary with subcommands. Shared infrastructure (CLI layer, input resolution, discovery) justified merging what was originally split into separate binaries. See the RFC for details (D10, D14).
+- **PR pipeline gates only what the author controls** — security scanning (govulncheck, audit) belongs in the release pipeline, not PR gates. `gover release --write` provides the staging area for pre-publish analysis — Go has no `npm pack`. See the RFC for details.
 - **NIH with documentation** — before writing something new, verify no existing solution covers the need. If it doesn't (gap), document why in the RFC or devlog, then build. Conscious NIH with documentation beats unconscious NIH without it.
-- **Adversarial architecture review** — the best way to validate architecture is to let someone try to destroy it. Disputed points and their resolutions are recorded as court records (attack, defense, verdict), not meeting notes. See [RFC-002 §7](docs/reference/rfc-002-ecosystem.md).
+- **Adversarial architecture review** — the best way to validate architecture is to let someone try to destroy it. Disputed points and their resolutions are recorded as court records (attack, defense, verdict), not meeting notes. See the RFC disputed points section.
 
 ## Documentation
 
 - **Keep docs in sync** — if a PR changes behavior, update the relevant docs in the same PR. Stale docs are worse than no docs.
 - **VitePress is the single source of truth** — all architecture, reference, and contributor docs live in `docs/`. No standalone `README.md` files inside packages — if a package needs documentation, write a VitePress page and register it in `docs/.vitepress/config.ts` sidebar.
 - **Devlog is welcome** — architectural decisions, NIH lessons, rollbacks, trade-offs — write it up in `docs/devlog/`. Format: `NNN-slug.md`, register in `docs/.vitepress/config.ts` sidebar.
+- **No hardcoded counts or concrete IDs in descriptions** — don't write "4 RFCs", "30 decisions", "RFC-004" in README, landing page, guide, or code comments. Same principle as not writing `// Has 2 if statements` above a function. Counts change, IDs shift, descriptions rot. Use abstract references: "stress-tested through adversarial review", "see the reference", "see the RFC". Concrete IDs belong only where they are the content — inside RFC files, decision logs, evidence tables.
+
+## No change cascade
+
+A change cascade is when one modification forces updates to N unrelated places. Applies to code, comments, docs, and config equally. Cascades are a brittleness signal — they inflate diffs, slow down PRs, and guarantee something stale somewhere.
+
+The goal is not "never reference anything". The goal is **resilience to change** — write everything so that the most common changes (rename, new variant, new subcommand, version bump) don't ripple.
+
+### Anti-patterns
+
+**In code:**
+- **Comments that describe implementation counts.** `// Doing 6 if checks` — add a seventh check, comment lies. `// Retries 3 times` above a function that reads `maxRetries` from config — config changes, comment lies. Comments describe *why* and *what*, not *how many*.
+- **Magic numbers that duplicate a source of truth.** A constant defined in one place, its value hardcoded in another. Change one — the other silently diverges.
+- **Copy-pasted logic** instead of a shared function. Fix a bug in one copy, the other stays broken.
+
+**In docs:**
+- **Hardcoded absolute URLs to your own repo.** Repo renames → every file breaks.
+- **Hardcoded counts** ("4 RFCs", "30 decisions", "8 subcommands"). Counts change silently, descriptions rot.
+- **Concrete IDs in descriptive prose** ("stress-tested in RFC-004 §7"). The RFC section is the content; the README is a pointer.
+- **Duplicating information** that has a single source of truth. Commit conventions in CONTRIBUTING.md when they live in REVIEW.md → two places to update, one will be forgotten.
+- **Absolute URLs where relative paths work.** `[REVIEW.md](REVIEW.md)` survives a repo rename. `https://github.com/thumbrise/gover/blob/main/REVIEW.md` does not.
+
+### Patterns
+
+- **Indirection over hardcoding.** In docs: "see docs site (link in README)" — one place to update. In code: read from config or constant, don't duplicate the value.
+- **Relative references.** `[REVIEW.md](REVIEW.md)`, `./decisions.md#rejected-alternatives`.
+- **Abstract references in prose.** "Stress-tested through adversarial review" instead of "stress-tested in RFC-004 §7".
+- **Single source of truth.** Don't repeat — point. In docs: CONTRIBUTING.md says "see REVIEW.md", not a copy. In code: one constant, one function, one type — consumers reference it, not redefine it.
+- **Comments describe intent, not mechanics.** `// Validate all invariants before commit` — survives any refactor. `// Check 6 fields for nil` — breaks on the seventh field.
+
+### Frozen snapshots are exempt
+
+Devlogs, RFC amendment histories, and decision logs are append-only records of the past. They describe what happened during a specific period and naturally contain concrete IDs, counts, and RFC versions of that period. Nobody updates them when the project evolves — they are frozen at publication time and don't cause cascades.
+
+### Origin
+
+This rule was codified after a `multimod` → `gover` rename caused a cascade across README, CONTRIBUTING.md, VitePress config, docs frontmatter, CI badges, and social links. Every hardcoded URL and project name became a broken reference. The lesson: brittleness is not in the change — it's in the reference style. The same principle applies to code — a comment that counts implementation details is a cascade waiting to happen.
 
 ## Git
 
