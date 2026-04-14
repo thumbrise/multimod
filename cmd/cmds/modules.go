@@ -24,7 +24,7 @@ import (
 )
 
 // ModulesCommand outputs the project module map as JSON to stdout.
-// Designed for piping into external tools (multirelease, jq, scripts).
+// Designed for piping into external tools (jq, scripts).
 // Thin command layer — marshals State into a stable JSON contract.
 type ModulesCommand struct {
 	*cobra.Command
@@ -41,8 +41,8 @@ func NewModulesCommand(state model.State) *ModulesCommand {
 		Long: `Outputs discovered module structure as JSON to stdout.
 Designed for piping into external tools:
 
-  multimod modules | multirelease v1.2.3 --write
-  multimod modules | jq '.subs[].dir'`,
+  multimod modules | jq '.subs[].path'
+  multimod modules | jq '.root.goVersion'`,
 		Args: cobra.NoArgs,
 		RunE: mc.run,
 	}
