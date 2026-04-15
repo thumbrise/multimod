@@ -68,7 +68,7 @@ export default defineConfig({
           text: 'Reference',
           items: [
             {text: 'Index', link: '/reference/'},
-            {text: 'RFC-004 — Ecosystem', link: '/reference/rfc-004/'},
+            {text: 'RFC-004 — Ecosystem (2026-04-15)', link: '/reference/rfc-004/'},
             {text: 'RFC-003 — Ecosystem (2026-04-12)', link: '/reference/rfc-003-ecosystem'},
             {text: 'RFC-002 — Ecosystem (2026-04-12)', link: '/reference/rfc-002-ecosystem'},
             {text: 'RFC-001 — Ecosystem (2026-04-07)', link: '/reference/rfc-001-ecosystem'},
